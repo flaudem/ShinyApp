@@ -1,0 +1,206 @@
+---
+encoding: UTF-8
+title: "Illustration shiny"
+author: "Flaude BANZA "
+#date: "10 avril 2020"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(shiny)
+library("gridExtra")
+```
+
+## Approximation de la loi Gamma
+Soient $X_k$ des variables aléatoires réelles définies sur le même espace de probabilité et indépendantes.<br> 
+On note :
+$$S_r = \displaystyle\sum_{k=1}^{r}X_k \qquad \quad et \quad \qquad S_{r}^{*}=\frac{S_r - \mathbb{E}(S_r)}{\sqrt{\mathbb{Var}(S_r)}}$$
+
+Si les $X_k$ sont indépendantes et de même loi exponentielle de paramètre $\lambda$, alors $S_r(=\gamma(r,\lambda))$ suit approximativement une loi normale $\mathcal{N(\frac{r}{\lambda},\frac{r}{\lambda^2})}$.
+
+Nous allons montrer par simulations que  
+$$S_{r}^{*}=\frac{\lambda}{\sqrt{r}}\Big(S_r - \frac{r}{\lambda}\Big) \xrightarrow[r \to \infty]{\mathcal{L}}\mathcal{N(0,1)} \qquad \qquad (1)$$
+
+
+
+
+
+<br><br>
+
+```{r  echo=FALSE}
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+   
+  theme = shinythemes::shinytheme("cosmo"),
+  
+  
+  sidebarLayout(
+    sidebarPanel("PARAMETRES :",
+                 sliderInput("r",
+                             "r", min = 1,max = 200,value = 1.5),
+                 sliderInput("lambda",
+                             "lambda", min = 0.1, max = 10, value = 2),
+                 selectInput("select", label = h3("Echantillon"), 
+                             choices = list("100" = 100, "500" = 500, "1000"=1000, "5000"=5000))
+    ),
+    
+    # Show a plot of the generated distribution
+    mainPanel(
+      tabsetPanel(
+        tabPanel(title = "", plotOutput("graphe", click = "plot_click")
+                 
+                 )
+                
+                 )
+        )
+        )
+)
+
+
+
+server <- function(input, output) {
+   
+  output$graphe<- renderPlot({
+    
+    c=0
+    
+    for(i in 1:input$select){
+      c[i]=sum(rexp(input$r,input$lambda))
+    }
+    hist(c,freq = F,breaks = 20,prob=T, main="Histogramme",col = 'lightblue', border = 'white', xlab = NA, las=1)
+    curve(dnorm(x,input$r/input$lambda,sqrt(input$r)/input$lambda),col= 'red', from = min(c)-1, to=max(c)+1,add=TRUE,lwd=2)
+  })
+}
+
+
+# Run the application 
+shinyApp(ui = ui, server = server, options = list(width= 1000, height = 500))
+
+```
+
+
+$\bullet$ Ici,on peut remarquer que, plus la valeur de $r$ augmente, plus la convergence vers une loi normale se confirme. On pourrait meme croire que l'approximation dépend aussi de la taille de l'echatillon, ce qui n'est pas le cas mais plutôt la convergeance de l'histogramme qui en depend.
+<br><br>
+
+
+##Normal QQ-Plot
+
+
+```{r  echo=FALSE}
+
+ui <- fluidPage(
+   
+  theme = shinythemes::shinytheme("cosmo"),
+  
+  sidebarLayout(
+    sidebarPanel("PARAMETRES :",
+                 sliderInput("r",
+                             "r", min = 1,max = 200,value = 5),
+                 sliderInput("lambda",
+                             "lambda", min = 0.1, max = 10, value = 2),
+                 selectInput("select", label = h3("Echantillon"), 
+                             choices = list("100" = 100, "500" = 500, "1000"=1000, "5000"=5000))
+                 
+    ),
+    
+    # Show a plot of the generated distribution
+    mainPanel(
+      tabsetPanel(
+        
+        tabPanel(title = "",plotOutput("graphe1", click = "plot_click")
+                 )
+                 )
+        )
+        )
+)
+
+
+
+server <- function(input, output) {
+   
+  output$graphe1<- renderPlot({ 
+    c=0
+    for(i in 1:input$select){
+      c[i]=sum(rexp(input$r,input$lambda))
+    }
+    qqnorm((c-mean(c))/sd(c), las=1)
+    abline(0,1,col = 'red',lwd=1)
+  })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server,   options = list(width= 1000, height = 500))
+
+```
+
+$\bullet$ Ici, nous pouvons clairement voir que l'alignement des points sur la droite ne depend que de r.
+<br><br>
+
+
+## Fonction de répartition
+
+
+Comme la fonction de répartition $\Phi$ de $\mathcal{N(0,1)}$ est continue sur $\mathbb{R}$, on montre par simulations que $(1)$ est équivaut à
+
+$$\forall x \in \mathbb{R}, \qquad 
+\mathbb{P}(S_{r}^{*}\le x)   \xrightarrow[r \to \infty]{\mathcal{}} \Phi(x)= \displaystyle\int_{-\infty}^{x}exp(- \frac{t^2}{2})\frac{dt}{\sqrt{2\pi}} $$
+
+
+<br><br>
+
+```{r  echo=FALSE}
+
+ui <- fluidPage(
+   
+  theme = shinythemes::shinytheme("cosmo"),
+  
+  
+  sidebarLayout(
+    sidebarPanel("PARAMETRES :",
+                 sliderInput("r",
+                             " r ", min = 1,max = 200,value = 5),
+                 sliderInput("lambda",
+                             "lambda", min = 0.1, max = 10, value = 2),
+                 selectInput("select", label = h3("Echantillon"), 
+                             choices = list("100" = 100, "500" = 500, "1000"=1000, "5000"=5000))
+    ),
+    
+    # Show a plot of the generated distribution
+    mainPanel(
+      tabsetPanel(
+        tabPanel(title = "",plotOutput("graphe2", click = "plot_click"))
+                 
+                
+        
+                 )
+        )
+        )
+)
+
+
+
+server <- function(input, output) {
+  
+  output$graphe2<- renderPlot({ 
+    c=0
+    for(i in 1:input$select){
+      c[i]=sum(rexp(input$r,input$lambda))
+    }
+    plot(ecdf(c),lty=3,main="Fonction de répartion cumulée", las = 1)
+    curve(pnorm(x,input$r/input$lambda,sqrt(input$r)/input$lambda),lty=3,lwd=3,from = min(c),to=max(c),col="red",add=TRUE, xlab = NA)
+  })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server, options = list(width= 1000, height = 600))
+
+```
+
+
+
+
+

@@ -1,0 +1,915 @@
+---
+encoding: UTF-8
+title: "Mini Projet Probabilités numériques & Statistiques Computationnelles"
+author: " Flaude BANZA "
+#date: " 23 avril 2020 "
+output: html_document
+---
+
+
+
+</table>
+<!-- INTRODUCTION -->
+<br><br>
+<h4> **Sujet** : Montrer que lorsque $r$ est grand, la loi gamma $\Gamma(r,\lambda)$ ressemble à une loi normale</h4
+<br><br>
+
+
+<h4>Introduction</h4>
+<br>
+<div style="text-align: justify">
+En théorie des probabilités et en statistiques, la loi normale est l'une des lois de probabilité la plus adaptée pour modéliser des phénomènes naturels issus de plusieurs événements aléatoires. Elle est en lien avec des nombreux objets mathématiques ou d'autres lois de probabilité. Elle prend une place particulière grâce au $\textit{théorème central limite}$. En effet, elle correspond au comportement, sous certaines conditions, d'une suite d'expériences aléatoires similaires et indépendantes lorsque le nombre d'expériences est très élévé. Grâce à cette propriété, la loi normale permet d'approcher d'autres lois de probabilité.<br>
+Le but recherché dans ce travail est de vérifier si, en faisant varier le paramètres $r$,  la loi gamma $\Gamma(r,\lambda)$ va ressemblée à une loi normale.<br>
+
+Pour cela, nous allons structurer ce travail en trois parties. Premièrement, nous allons faire une brève étude théorique sur la loi gamma pour se fixer les idées. Deuxièmement, nous allons appliquer des méthodes graphiques par des simulations de la loi gamma selon les valeurs du paramètre $r$. Enfin, nous allons clore ce sujet en réalisant quelques tests de normalité qui viendront comme appuyer les méthodes graphiques. <br>
+
+</div>
+<br><br>
+
+<br><br>
+<h4>I. Etude théorique de la loi gamma </h4>
+
+Une variable aléatoire $X$ suit une loi Gamma de paramétre r et $\lambda$, $(r>0 , \lambda >0)$, notée $\Gamma(r , \lambda)$ si $X$ admet pour densité :
+
+<center>
+ <h4>$f(x) = \frac{\lambda^r}{\Gamma(r)} x^{r-1} \mathrm{e}^{-\lambda x}\mathbb{1}_{]0,+\infty]}$ </h4>
+ </center>
+ Avec la fonction gamma, définie pour tout réel $(r > 0)$ par :
+
+
+ <center>
+ <h4> $\Gamma(r)=\displaystyle\int_0^{+\infty} x^{r-1}\mathrm{e}^{-x}\,\mathrm{d}x$ </h4>
+ </center>
+
+
+<br>
+ <h4> Proposition : (Moments d'une loi gamma) </h4>
+
+ 
+ Si $X$ suit une loi gamma de paramètres$(r,\lambda)$, alors :<br>
+ $i).$ l'espérance vaut
+<center>
+ <h4> $\mathbb{E}[X] = \frac{r}{\lambda}$ </h4>
+ </center>
+  
+  $ii).$ la variance est égale à
+  <center>
+  <h4> $\mathbb{Var}[X]=\frac{r}{\lambda^2}$ </h4>
+ </center>
+ 
+  <h4> Preuve : </h4>
+ $i).$ Par un changement de variable $x=\lambda y$, on a : <br>
+
+ <center>
+<h4> $\mathbb{E}(X)= \frac{\lambda^r}{\Gamma(r)}\displaystyle\int_0^{+\infty} x^{r}\mathrm{e}^{-x}\,\mathrm{d}x$
+ $\mathbb{   }   = \frac{\lambda^r}{\lambda\Gamma(r)}\displaystyle\int_0^{+\infty} (\frac{y}{\lambda})^{r}\mathrm{e}^{-y}\,\mathrm{d}y$
+ $\mathbb{   }   = \frac{\lambda^r}{\Gamma(r)} \frac{\Gamma(r+1)}{\lambda^{r+1}} =\frac{r}{\lambda}$</h4>
+ </center>
+
+ <br>
+ $ii).$ Par un changement de variable identique à $i).$,
+
+ <center>
+ <h4>$\mathbb{E}(X^2)= \frac{\lambda^r}{\lambda^{r+2} \Gamma(r)}\displaystyle\int_0^{+\infty} y^{r+1}\mathrm{e}^{-y}\,\mathrm{d}y =  \frac{\Gamma(r+2)}{\lambda^{2}\Gamma(r)}=\frac{r(r+1)}{\lambda^2}$<h4>
+ </center>
+ donc
+ <center>
+ <h4>$Var(X)=\mathbb{E}(X^2)-{\mathbb{E}(X)}^2=\frac{r}{\lambda^2}$
+ </center>
+ 
+<br>
+<h4> Fonction de répartition : </h4>
+
+<center>
+<h4>$\mathbb{F}_X(x) =\mathbb{P}(X\leq x) = \displaystyle\int_{-\infty}^x\frac{\lambda^{r}}{\Gamma(r)} t^{r-1}\mathrm{e}^{-\lambda t}\mathbb{1}_{]0,+\infty]}(t)\,\mathrm{d}t$ $, x \in \mathbb{R}$</h4>
+</center>
+
+<br>
+<h4> Fonction caractéristique : </h4>
+
+<center>
+<h4>$\Phi(X)=\Big(\frac{\lambda}{\lambda-it}\Big)^r$  $, t\in\mathbb{R}$</h4>
+</center>
+
+<br>
+<h4> Propriétés : (loi Gamma) </h4>
+
+<p style="align: center">
+<li> _Lien avec la loi exponentielle :_    $\Gamma(1,\lambda)=\varepsilon(\lambda)$</li>
+<br>
+<li> _Changement d'échelle_ : si $X\sim\gamma(r,\lambda)$  et si $\alpha>0$, alors $\alpha X \sim \gamma\Big(r,\frac{\lambda}{\alpha}\Big)$.</li>
+<br>
+<li> _Lien avec la loi du khi-deux_ : si $Y \sim \mathcal{N}(0,1)$, alors $Y^2 \sim \gamma\Big(\frac{1}{2}, \frac{1}{2}\Big)$ donc, $\chi_1^2=\gamma\Big(\frac{1}{2}, \frac{1}{2}\Big)$</li>
+<br>
+<li> _Stabilité_: si $(X_1+......+X_n)$ sont indépendantes de lois respectives $\gamma(r_i, \lambda)$, alors :
+<center>
+$X_1+......+X_n \sim \gamma(r_1+......+r_n,\lambda)$
+</center></li>
+
+<br>
+Par Conséquent :
+<br>
+$\star$ Si $(X_1+.........+X_n)$ sont $iid$ de loi $\varepsilon(\lambda)$, alors 
+<center>
+<h4> $\displaystyle\sum_{i=1}^{n} X_i \sim \gamma(n,\lambda)$ et $\bar{X}_n \sim \gamma\Big(n,n\lambda\Big).$</h4>
+</center>
+$\star$ Si $(X_1+.........+X_n)$ sont $iid$ de loi $\mathcal{N(0,1)}$, alors :
+<center>
+<h4> $\displaystyle\sum_{i=1}^{n} X_i^2 \sim \gamma\Big(\frac{n}{2},\frac{1}{2}\Big)$ c'est à dire  $\chi_n^2 \sim \gamma\Big(\frac{n}{2},\frac{1}{2}\Big).$</h4>
+</center></p>
+
+<br>
+
+$\bullet$ Lorsque $r$ est grand, la loi gamma $\Gamma(r,\lambda )$ converge en loi vers une loi normale, de moyenne $m=r/\lambda$ et de variance $\sigma^2=r/\lambda^2$. Par abus de notation, on écrira parfois $"\Gamma(r,\lambda)\approx \mathcal{N(r/\lambda,r/\lambda^2)} "$  
+C'est-à-dire 
+</center>
+$$\frac{\lambda}{\sqrt{r}}\Big( X_r - \frac{r}{\lambda}\Big) \xrightarrow[r \to \infty]{\mathcal{L}}\mathcal{N(0,1)}$$
+$$\Longleftrightarrow \forall x \in \mathbb{R}, \qquad \quad  \Bigg| \mathbb{P}(\frac{\lambda}{\sqrt{r}}(X_r - \frac{r}{\lambda})\le x) -\Phi(x) \Bigg| \xrightarrow[r \to \infty]{\mathcal{}} 0 $$
+</center></p>
+
+
+
+ 
+<br><br>
+<h4>II. Simulation de la loi Gamma </h4>
+
+
+On tire un échantillon de $n=50000$ observations suivant une loi Gamma de paramétre $r$  et $\lambda=2$ fixé.<br>
+On prendra :  $r=10$ $r=50$ et $r=100$
+
+<br><br>
+<h4>$i).$ Comparaison à partir d'un histogramme  </h4>
+Suivant les valeurs de $r$ on trace l'histogramme et la courbe correspondante aux données afin de la comparer à l'allure de la courbe d'une loi normale.
+
+<table style="width: 100%">
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+n=5e4
+r=10
+lamb=2
+c=0
+for(i in 1:n){
+     c[i]=sum(rexp(r,lamb))
+} 
+hist(c,freq=F,breaks = 50,col="yellow",main="r=10",las=1)
+curve(dnorm(x,r/lamb,sqrt(r)/lamb),from = min(c),to=max(c),col='red',lwd=2 , xlab = NA,ylab = NA,add=T)
+grid(lwd=0.5)
+
+```
+  </td>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-left: 15px;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+n=5e4
+ r=50
+lamb=2
+ c=0
+ for(i in 1:n){
+     c[i]=sum(rexp(r,lamb))
+ }
+ hist(c,freq=F,breaks = 50, col="yellow", las=1, main="r=50")
+ curve(dnorm(x,r/lamb,sqrt(r)/lamb),from = min(c),to=max(c),col='red', lwd=2 ,xlab = NA,ylab = NA,add=T)
+ grid(lwd=0.5)
+ 
+```
+  </td>
+  <td style="width: 33.33%;padding-left: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+ n=5e4
+ r=100
+lamb=2
+ c=0
+ for(i in 1:n){
+     c[i]=sum(rexp(r,lamb))
+ }
+ hist(c,freq=F,breaks = 45, las = 1, col = "yellow",main="r=100", las =1)
+ curve(dnorm(x,r/lamb,sqrt(r)/lamb),from = min(c),to=max(c), col='red', lwd=2 ,xlab = NA,ylab = NA, add = T)
+ grid(lwd=0.5)
+ 
+```
+  </td>
+</tr>
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-right: 15px">
+Pour $r=10$, on constate que l'histogramme est unimodal mais asymétrique. On rejette l'hypothèse gaussiènne avec certitude.
+  </td>
+  
+  
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-left: 15px;padding-right: 15px">
+  
+Pour $r=50$, on constate que l'histogramme est (à peut près) unimodal et légèrement asymétrique. Etant donné que la taille de l'échantillon est grande (n=50000), la densité gaussienne semble appropriée (on ne peut pas complètement écarter l'hypothèse gaussiènne).
+  </td>
+  
+  
+  <td style="width: 33.33%;text-align: justify;padding-left: 15px">
+Pour $r=100$, on constate que l'histogramme est unimodal et symétrique.Vu la taille de l'échantillon (n=50000), la densité gaussienne semble parfaitement appropriée (on peut confirmer l'hypothèse gaussiènne avec certitude).
+  </td>
+</tr>
+</table>
+
+
+
+<br><br>
+<h4>$ii).$ Comparaison par QQ-plot </h4>
+
+
+On tire deux échantillons de taille $n=500$ observations chacun suivant respectivement une loi $\Gamma(r,\lambda)$ et $\mathcal{N}\Big(\frac{r}{\lambda},\frac{r}{\lambda^2}\Big)$.<br>
+Le but est de vérifier si en faisant varier $r$, ces deux échantillons suivent une même loi.
+<br>
+
+<table style="width: 100%">
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=500
+lambda = 2
+r = 10
+
+ech1 = rgamma(n, r, lambda)
+ech2 = rnorm(n, r/lambda, sqrt(r)/lambda)
+
+qqplot(ech1, ech2, las=1)
+grid(lwd=0.5)
+
+```
+  </td>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-left: 15px;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=500
+lambda = 2
+r = 50
+
+ech1 = rgamma(n, r, lambda)
+ech2 = rnorm(n, r/lambda, sqrt(r)/lambda)
+
+qqplot(ech1, ech2, las=1)
+grid(lwd=0.5)
+ 
+```
+  </td>
+  <td style="width: 33.33%;padding-left: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=500
+lambda = 2
+r = 100
+
+ech1 = rgamma(n, r, lambda)
+ech2 = rnorm(n, r/lambda, sqrt(r)/lambda)
+
+qqplot(ech1, ech2, las=1)
+grid(lwd=0.5)
+ 
+```
+  </td>
+</tr>
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-right: 15px">
+Pour $r=10$, les points du QQ-plot semblent s'aligné sur une courbe. On peut conclure que les lois de ces deux échantillons sont assez différentes.
+  </td>
+  
+  
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-left: 15px;padding-right: 15px">
+  
+Pour $r=50$, les points du QQ-plot semblent être alignés sur une droite. On conclut que la distribution des deux échantillons est rélativement la même.
+  </td>
+  
+  
+  <td style="width: 33.33%;text-align: justify;padding-left: 15px">
+Pour $r=100$, les points du QQ-plot sont parfaitement alignés sur une droite.Donc, la distribution des deux échantillons est essentiellement la même.
+  </td>
+</tr>
+</table>
+
+
+
+<br><br>
+
+$\bullet$ Suivant les valeurs de $r$, on trace un qq-norm puis on observe l'alignement des points autour de la droite.
+
+<table style="width: 100%">
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+n=5e4
+ r=10
+lamb=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lamb))
+qqnorm((c-mean(c))/sd(c),main = "Normal Q-Q Plot r = 10", las =1)
+ abline(0,1,col="red")
+ grid(lwd=0.5)
+ 
+```
+  </td>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-left: 15px;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+n=5e4
+ r=50
+lamb=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lamb))
+qqnorm((c-mean(c))/sd(c),main = "Normal Q-Q Plot r = 50", las=1)
+ abline(0,1,col="red")
+ grid(lwd=0.5)
+```
+  </td>
+  <td style="width: 33.33%;padding-left: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+n=5e4
+ r=100
+lamb=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lamb))
+qqnorm((c-mean(c))/sd(c),main = "Normal Q-Q Plot r = 100", las=1 )
+ abline(0,1,col="red")
+ grid(lwd=0.5)
+```
+  </td>
+</tr>
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-right: 15px">
+<h4>$$r=10 \qquad et \qquad \lambda=2$$</h4>
+
+Pour $r=10$, on constate que les points s'écartent un peu de la droite, mais pas au point qu'on pourrait rejeter complètement l'hypothèse gaussiènne.
+
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-left: 15px;padding-right: 15px">
+
+<h4>$$r=50 \qquad et \qquad \lambda=2$$</h4>
+
+
+Pour $r=50$, on remarque que les points semblent suivre une loi normale, l'hypothèse gaussiènne peut être évoquée.
+
+  </td>
+  <td style="width: 33.33%;text-align: justify;padding-left: 15px">
+
+<h4>$$r=100 \qquad et \qquad \lambda=2$$</h4>
+
+Pour $r=100$, l'alignement des points autour de la droite semble parfaite, ce qui peut confirmer l'hypothèse gaussiènne.
+
+  </td>
+</tr>
+</table>
+
+
+
+<br><br>
+<h4>$iv).$ Comparaison via les courbes de densité de probabilité   </h4>
+
+La ressemblance entre l'allure de la courbe de la loi normale et celle de la loi gamma se précise au fur et à mesure que le paramètre $r$ de la loi $\Gamma(r,\lambda)$ augmente. Comme nous pouvons le voir sur les trois figures ci-dessous. <br>
+
+<table style="width: 100%">
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+ x<-seq(0,10,length.out = 5e4) 
+    plot(x,dnorm(x,5,sqrt(5/2)),type = 'l',col="red",xlab = NA,ylab = NA, las=1)
+  lines(x,dgamma(x,10,2))
+  legend('topleft',c("Gamma","Normale"),col=c('black','red','black'),lwd=rep(2,3))
+grid(lwd=0.5)
+```
+  </td>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-left: 15px;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+x<-seq(15,35,length.out = 5e4) 
+    plot(x,dnorm(x,25,sqrt(25/2)),type = 'l',col="red",xlab = NA,ylab = NA, las=1)
+  lines(x,dgamma(x,50,2))
+  legend('topleft',c("Gamma","Normale"),col=c('black','red','black'),lwd=rep(2,3))
+grid(lwd=0.5)
+
+```
+  </td>
+
+
+  <td style="width: 33.33%;padding-left: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+x<-seq(30,70,length.out = 5e4) 
+ plot(x,dnorm(x,50,sqrt(50/2)),type = 'l',col="red",xlab = NA,ylab = NA,las=1)
+lines(x,dgamma(x,100,2))
+legend('topleft',c("Gamma","Normale"),col=c('black','red','black'),lwd=rep(2,3))
+grid(lwd=0.5)
+```
+  </td>
+</tr>
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-right: 15px">
+  <h4>$$r=10 \qquad et \qquad \lambda=2$$</h4>
+  </td>
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-left: 15px;padding-right: 15px">
+ <h4>$$r=50 \qquad et \qquad \lambda=2$$</h4>
+  </td>
+  <td style="width: 33.33%;text-align: justify;padding-left: 15px">
+  <h4>$$r=100 \qquad et \qquad \lambda=2$$</h4>
+  </td>
+</tr>
+</table>
+
+<br><br>
+<h4>$v).$ Comparaison via les fonctions de répartition   </h4>
+
+
+<table style="width: 100%">
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+n=1000
+ r=10
+lambda=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lamb))
+    plot(ecdf(c),lty=3,main="Fonction de répartion pour r=10 ", las = 1)
+    curve(pnorm(x,r/lambda,sqrt(r)/lambda),lty=3,lwd=3,from = min(c),to=max(c),col="red",add=TRUE, xlab = NA)
+    legend('topleft',c("Gamma","Normale"),col=c('black','red','black'),lwd=rep(2,3))
+ grid(lwd=0.5)
+```
+  </td>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-left: 15px;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+n=1000
+ r=50
+lambda=2
+ c=0
+ for(i in 1:n)
+        c[i]=sum(rexp(r,lamb))
+    plot(ecdf(c),lty=3,main="Fonction de répartion pour r=50 ", las = 1)
+    curve(pnorm(x,r/lambda,sqrt(r)/lambda),lty=3,lwd=3,from = min(c),to=max(c),col="red",add=TRUE, xlab = NA)
+    legend('topleft',c("Gamma","Normale"),col=c('black','red','black'),lwd=rep(2,3))
+ grid(lwd=0.5)
+```
+  </td>
+  <td style="width: 33.33%;padding-left: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+n=1000
+ r=100
+lambda=2
+ c=0
+ for(i in 1:n)
+         c[i]=sum(rexp(r,lamb))
+    plot(ecdf(c),lty=3,main="Fonction de répartion pour r=100", las = 1)
+    curve(pnorm(x,r/lambda,sqrt(r)/lambda),lty=3,lwd=3,from = min(c),to=max(c),col="red",add=TRUE, xlab = NA)
+    legend('topleft',c("Gamma","Normale"),col=c('black','red','black'),lwd=rep(2,3))
+ grid(lwd=0.5)
+```
+  </td>
+</tr>
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-right: 15px">
+<h4>$$r=10 \qquad et \qquad \lambda=2$$</h4>
+
+
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-left: 15px;padding-right: 15px">
+
+<h4>$$r=50 \qquad et \qquad \lambda=2$$</h4>
+
+
+  </td>
+  <td style="width: 33.33%;text-align: justify;padding-left: 15px">
+
+<h4>$$r=100 \qquad et \qquad \lambda=2$$</h4>
+
+
+  </td>
+</tr>
+</table>
+
+
+
+
+<br><br>
+<h4> III. Tests de normalité </h4>
+Après les méthodes graphiques, nous allons maintenant effectuer quelques tests statistiques connus afin d'appuyer nos conclusions. Parmi ces tests, nous allons effectuer cinq : le très connu test de Shapiro-Wilks et quatre autres
+fondés sur la fonction de répartition empirique cumulée (Kolmogorov-Smirnov,
+Lilliefors, Cramer-Von Mises et Anderson Darling). Le niveau de significativité sera de 5% pour tous les tests.
+<br>
+
+<h4>$a).$ Test de Kolmogorov-Smirnov </h4>
+On calcule les différences entre la fonction de répartition emprique et la fonction de répartition théorique (définie par $H_0$:la distribution suit une loi normale). La moyenne et la variance de la
+distribution théorique sont considérées comme connues.
+La statistique de test est :<br>
+$$D=\displaystyle\max_{1\le i \le n}\Big(D^+;D^-\Big)$$
+avec $$D^+=\displaystyle\max_{1\le i \le n}\Big[\frac{i}{n} - z_i\Big] \qquad et \qquad D^-=\displaystyle\max_{1\le i \le n}\Big[z_i - \frac{i}{n}\Big] \qquad ;\qquad z_i = F(x_{(i)})$$
+<br><br>
+
+
+<table style="width: 100%">
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=100
+ r=10
+lambda=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lambda))
+
+ks.test(c, "pnorm", mean=0, sd=1) 
+
+```
+  </td>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-left: 15px;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=100
+ r=50
+lambda=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lambda))
+
+ks.test(c, "pnorm", mean=0, sd=1) 
+
+ 
+```
+  </td>
+  <td style="width: 33.33%;padding-left: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=100
+ r=100
+lambda=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lambda))
+
+ks.test(c, "pnorm", mean=0, sd=1) 
+
+ 
+```
+  </td>
+</tr>
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-right: 15px">
+<h4>$$r=10$$</h4>
+
+
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-left: 15px;padding-right: 15px">
+
+<h4>$$r=50  $$</h4>
+
+
+  </td>
+  <td style="width: 33.33%;text-align: justify;padding-left: 15px">
+
+<h4>$$r=100 $$</h4>
+
+
+  </td>
+</tr>
+</table>
+<br>
+Le test de Kolmogorov-Smirnov renvoie une p-value significative respectivement pour $r=10$, $r=50$ et $r=100$. Il est probablement claire qu'au vu du test de Kolmogorov-Smirnov, la loi gamma $\gamma(r,\lambda)$ n'approxime pas  une loi normale $\mathcal{N}\big(\frac{r}{\lambda}, \frac{r}{\lambda^2}\big)$.
+
+
+<br>
+<h4>$b).$ Test de Lillifors </h4>
+
+```{r  echo=FALSE}
+
+library(nortest)
+library(nortestARMA)
+
+```
+<br>
+La statistique du test est identique à celle de Kolmogorov-Smirnov mais la
+moyenne et la variance de la distribution théorique sont considérées comme
+inconnues et estimées à partir des informations sur l'échantillon.<br>
+$$D^+=\displaystyle\max_{1\le i \le n}\Big[\frac{i}{n} - z_i\Big] \qquad et \qquad D^-=\displaystyle\max_{1\le i \le n}\Big[z_i - \frac{i-1}{n}\Big]$$
+$$D = \displaystyle\max_{1\le i \le n}\Big(D^+;D^-\Big)$$.
+<br><br>
+
+
+<table style="width: 100%">
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=100
+ r=10
+lambda=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lambda))
+
+lillie.test(c)
+
+ 
+```
+  </td>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-left: 15px;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=100
+ r=50
+lambda=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lambda))
+
+lillie.test(c)
+
+ 
+```
+  </td>
+  <td style="width: 33.33%;padding-left: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=100
+ r=100
+lambda=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lambda))
+
+lillie.test(c)
+
+ 
+```
+  </td>
+</tr>
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-right: 15px">
+<h4>$$r=10 $$</h4><br>
+Le test renvoie une p-value significative. La loi gamma $\gamma(r,\lambda)$ n'approxime donc pas une loi normale $\mathcal{N}\big(\frac{r}{\lambda}, \frac{r}{\lambda^2}\big)$.
+
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-left: 15px;padding-right: 15px">
+
+<h4>$$r=50 $$</h4><br>
+Le test renvoie une p-value non significative. Il est donc probable que la loi gamma $\gamma(r,\lambda)$ approxime  une loi normale $\mathcal{N}\big(\frac{r}{\lambda}, \frac{r}{\lambda^2}\big)$.
+
+  </td>
+  <td style="width: 33.33%;text-align: justify;padding-left: 15px">
+
+<h4>$$r=100 $$</h4>
+<br>
+Le test renvoie une p-value non significative. La loi gamma $\gamma(r,\lambda)$ approxime donc une loi normale $\mathcal{N}\big(\frac{r}{\lambda}, \frac{r}{\lambda^2}\big)$.
+
+  </td>
+</tr>
+</table>
+
+
+
+
+<br>
+<h4>$c).$ Test de Cramer-Von Mises </h4>
+La statistique du test est :
+$$W^2=\displaystyle\sum_{i=1}^{n}\Big(z_i - \frac{2i-1}{2n}\Big)^2 + \frac{1}{12n}$$
+<br><br>
+
+
+<table style="width: 100%">
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=100
+ r=10
+lambda=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lambda))
+ 
+cvm.test(c)
+
+ 
+```
+  </td>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-left: 15px;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=100
+ r=50
+lambda=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lambda))
+
+cvm.test(c)
+
+ 
+```
+  </td>
+  <td style="width: 33.33%;padding-left: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=100
+ r=100
+lambda=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lambda))
+
+cvm.test(c)
+
+ 
+```
+  </td>
+</tr>
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-right: 15px">
+<h4>$$ r=10 $$</h4>
+<br>
+Le test renvoie une p-value significative. La loi gamma $\gamma(r,\lambda)$ n'approxime donc pas une loi normale $\mathcal{N}\big(\frac{r}{\lambda}, \frac{r}{\lambda^2}\big)$.
+
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-left: 15px;padding-right: 15px">
+
+<h4>$$r=50 $$</h4>
+<br>
+Le test renvoie une p-value non significative. il est donc probable que la loi $\gamma(r,\lambda)$ approxime  une loi normale $\mathcal{N}\big(\frac{r}{\lambda}, \frac{r}{\lambda^2}\big)$.
+
+  </td>
+  <td style="width: 33.33%;text-align: justify;padding-left: 15px">
+
+<h4>$$r=100 $$</h4>
+<br>
+Le test renvoie une p-value non significative. La loi gamma $\gamma(r,\lambda)$ approxime significativement une loi normale $\mathcal{N}\big(\frac{r}{\lambda}, \frac{r}{\lambda^2}\big)$.
+
+  </td>
+</tr>
+</table>
+
+
+
+
+
+
+<br>
+<h4> $d).$ Test d'Anderson Darling </h4>
+La statistique du test est :
+
+$$A^2=-\frac{\displaystyle\sum_{i=1}^{n}\Big(2i-1\Big)\Big[ln(z_i)+ln(1 - z_{n+1-i})\Big]}{n} - n$$
+<br><br>
+
+
+<table style="width: 100%">
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=100
+ r=10
+lambda=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lambda))
+
+ad.test(c)
+
+ 
+```
+  </td>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-left: 15px;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=100
+ r=50
+lambda=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lambda))
+
+ad.test(c)
+
+ 
+```
+  </td>
+  <td style="width: 33.33%;padding-left: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=100
+ r=100
+lambda=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lambda))
+
+ad.test(c)
+ 
+```
+  </td>
+</tr>
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-right: 15px">
+<h4>$$r=10 $$</h4>
+<br>
+Le test renvoie une p-value significative. La loi gamma $\gamma(r,\lambda)$ n'approxime donc pas une loi normale $\mathcal{N}\big(\frac{r}{\lambda}, \frac{r}{\lambda^2}\big)$.
+
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-left: 15px;padding-right: 15px">
+
+<h4>$$r=50 $$</h4>
+<br>
+Le test renvoie une p-value non significative. Il est donc probable que la loi gamma $\gamma(r,\lambda)$ approxime une loi normale $\mathcal{N}\big(\frac{r}{\lambda}, \frac{r}{\lambda^2}\big)$.
+
+  </td>
+  <td style="width: 33.33%;text-align: justify;padding-left: 15px">
+
+<h4>$$r=100 $$</h4>
+<br>
+Le test renvoie une p-value non significative. La loi gamma $\gamma(r,\lambda)$ approxime donc bien une loi normale $\mathcal{N}\big(\frac{r}{\lambda}, \frac{r}{\lambda^2}\big)$.
+
+  </td>
+</tr>
+</table>
+
+
+
+<br>
+<h4>$e).$ Test de Shapiro-Wilks </h4>
+La statistique du test est :
+
+$$W=\frac{\Bigg[\displaystyle\sum_{i=1}^{[n/2]}a_i\Big(x_{n-i+1} - x_{(i)}\Big)\Bigg]^2}{\displaystyle\sum_{i=1}^{n}\Big(x_i - \bar{x}\Big)^2}$$
+
+où $[n/2]$ est la partie entière du rapport $n/2$ et $x_{(i)}$ une valeur de la distribution
+X ordonnée.
+$a_i$ représente une constante générée à partir de la moyenne et de la matrice
+de variance-covariance des quantiles d'un échantillon de taille n suivant une loi normale.<br>
+
+
+
+<table style="width: 100%">
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=100
+ r=10
+lambda=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lambda))
+
+shapiro.test(c)
+ 
+```
+  </td>
+  <td style="width: 33.33%;border-right: 1px solid black;padding-left: 15px;padding-right: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=100
+ r=50
+lambda=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lambda))
+
+shapiro.test(c)
+ 
+```
+  </td>
+  <td style="width: 33.33%;padding-left: 15px">
+```{r echo=FALSE,fig.height=5.25,fig.width=5}
+
+n=100
+ r=100
+lambda=2
+ c=0
+ for(i in 1:n)
+     c[i]=sum(rexp(r,lambda))
+
+shapiro.test(c)
+ 
+```
+  </td>
+</tr>
+<tr>
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-right: 15px">
+<h4>$$r=10 $$</h4>
+<br>
+Le test renvoie une p-value significative. La loi gamma $\gamma(r,\lambda)$ n'approxime donc pas une loi normale $\mathcal{N}\big(\frac{r}{\lambda}, \frac{r}{\lambda^2}\big)$.
+
+  <td style="width: 33.33%;border-right: 1px solid black;text-align: justify;padding-left: 15px;padding-right: 15px">
+
+<h4>$$r=50 $$</h4>
+<br>
+Le test renvoie une p-value non significative. Il est relativement probable que la loi gamma $\gamma(r,\lambda)$ approxime donc une loi normale $\mathcal{N}\big(\frac{r}{\lambda}, \frac{r}{\lambda^2}\big)$.
+
+  </td>
+  <td style="width: 33.33%;text-align: justify;padding-left: 15px">
+
+<h4>$$r=100 $$</h4>
+<br>
+Le test renvoie une p-value non significative. La loi $\gamma(r,\lambda)$ approxime bien une loi normale $\mathcal{N}\big(\frac{r}{\lambda}, \frac{r}{\lambda^2}\big)$.
+
+  </td>
+</tr>
+</table>
+
+
+<br><br>
+<h4> Conclusion   </h4>
+D'après tout ce qui précède, l'analyse du problème à travers des outils graphiques et des tests réalisés, force est de constater que, plus le paramètre $r$ de la loi gammma $\Gamma(r,\lambda)$ augmente, plus l'on se rapproche des caractéristiques d'une loi normale. Ce qui pourrait donc confirmer  l'hypothèse selon laquelle, lorsque le paramètre $r$ augmente,la loi gamma $\Gamma(r,\lambda)$ converge vers une loi normale.
+
+<br><br>
+<br><br>
+
+
+
+
+
